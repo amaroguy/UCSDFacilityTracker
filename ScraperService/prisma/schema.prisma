@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Facility {
+  id              Int              @id
+  name            String
+  children        SubFacility[] 
+  facilityRecords FacilityRecord[]
+
+}
+
+model SubFacility {
+  id Int @id
+  name String
+  parentLocationId Int 
+  parentLocation Facility @relation(fields: [parentLocationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  facilityRecords FacilityRecord[]
+  @@index([parentLocationId])
+}
+
+model FacilityRecord {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime 
+  numberOfPeople Int
+  capacity Int
+  wasAvailable Boolean
+  fullness   Float
+  facilityId Int 
+  subFacilityId Int?
+  facility   Facility @relation(fields: [facilityId], references: [id]) // Defines the relation
+  subFacility SubFacility? @relation(fields: [subFacilityId], references: [id])
+
+  @@index([facilityId]) 
+  @@index([subFacilityId])
+}
