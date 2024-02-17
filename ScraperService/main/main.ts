@@ -22,6 +22,7 @@ for(let facilitySummary of facilitySummaries){
                 wasAvailable: facilityRecord.isAvailable,
                 fullness: facilityRecord.busyness,
                 facilityId: facilityRecord.id,
+                subFacilityId: facilityRecord.subId
             }
         )
     }

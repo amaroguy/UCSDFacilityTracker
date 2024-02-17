@@ -4,7 +4,7 @@ export const LOCS_TO_TRACK: LocationTrackingSetup = {
     "8": {trackSublocations: true}
 }
 
-const cleanLocationData = ({name, busyness, people, capacity, isAvailable, isOpen, hourSummary, id}: WaitzFacilityData): FacilitySummary => ({name, busyness, people, capacity, isOpen, isAvailable, hourSummary, id})
+const cleanLocationData = ({name, busyness, people, capacity, isAvailable, isOpen, hourSummary}: WaitzFacilityData, parentLocationId: number, subLocationId?: number): FacilitySummary => ({name, busyness, people, capacity, isOpen, isAvailable, hourSummary, id: parentLocationId, subId: subLocationId})
 
 export const fetchAllWaitzData = async (): Promise<WaitzFacilityData[]> => {
     const res = await fetch(WAITZ_URL)
@@ -23,14 +23,14 @@ export const fetchTrackedLocations = async (): Promise<(FacilitySummary[] | unde
             return
         }
 
-        let mainSummary = [cleanLocationData(currLoc)]
+        let mainSummary = [cleanLocationData(currLoc, currLoc.id)]
         let subLocSummary = [] as FacilitySummary[]
         
         if(!trackSublocations || !currLoc.subLocs){
             return mainSummary
         }
 
-        subLocSummary = currLoc.subLocs.map(cleanLocationData)
+        subLocSummary = currLoc.subLocs.map((loc) => cleanLocationData(loc, currLoc.id, loc.id))
 
         return [...mainSummary, ...subLocSummary]
     })

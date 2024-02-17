@@ -33,4 +33,5 @@ type FacilitySummary = {
     isOpen: boolean;
     hourSummary: string;
     id: number;
+    subId?: number;
 }
