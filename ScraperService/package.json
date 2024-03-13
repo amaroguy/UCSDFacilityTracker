@@ -5,15 +5,22 @@
   "description": "",
   "main": "data.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd ./main && npx tsc",
+    "seed": "node ./main/out/seed/seedFacilitiesTable.js",
+    "start": "node ./main/out/main.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.9.1"
+    "@prisma/client": "^5.9.1",
+    "node-cron": "^3.0.3",
+    "node-schedule": "^2.1.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.19",
+    "@types/node-cron": "^3.0.11",
+    "@types/node-schedule": "^2.1.6",
     "prisma": "^5.9.1"
   }
 }

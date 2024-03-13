@@ -5,6 +5,13 @@ import prisma from "../prisma.js";
 //Make sure you've taken a look at the facilities you want to track, and written them down in waitzData.js
 const allWaitzLocations = await fetchAllWaitzData()
 const facilityWriter = createFacilityWriter(prisma)
+const alreadySeededCheck = await prisma.facility.findFirst()
+
+
+if (alreadySeededCheck) {
+    console.log("Database is already seeded!")
+    process.exit()
+}
 
 
 for(let location of allWaitzLocations){
