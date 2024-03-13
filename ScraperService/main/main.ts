@@ -4,10 +4,6 @@ import schedule from "node-schedule"
 import prisma from "./prisma.js"
 const facilityWriter = createFacilityWriter(prisma)
 
-const rule = new schedule.RecurrenceRule();
-rule.minute = 30;
-rule.tz = "America/Los_Angeles"
-
 process.on('SIGINT', async function () { 
     await prisma.$disconnect()
     await schedule.gracefulShutdown()
@@ -16,7 +12,7 @@ process.on('SIGINT', async function () {
     process.exit(0)
 })
 
-schedule.scheduleJob(rule, async () => {    
+schedule.scheduleJob({tz: "America/Los_angeles", rule: "*/30 * * * *"}, async () => {    
     const timestamp = new Date()
     let facilitySummaries = await fetchTrackedLocations()
     
