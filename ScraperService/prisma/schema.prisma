@@ -6,9 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Facility {
@@ -23,7 +23,7 @@ model SubFacility {
   id Int @id
   name String
   parentLocationId Int 
-  parentLocation Facility @relation(fields: [parentLocationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parentLocation Facility @relation(fields: [parentLocationId], references: [id], onDelete: NoAction, onUpdate: Cascade)
   facilityRecords FacilityRecord[]
   @@index([parentLocationId])
 }
@@ -37,8 +37,8 @@ model FacilityRecord {
   fullness   Float
   facilityId Int 
   subFacilityId Int?
-  facility   Facility @relation(fields: [facilityId], references: [id]) // Defines the relation
-  subFacility SubFacility? @relation(fields: [subFacilityId], references: [id])
+  facility   Facility @relation(fields: [facilityId], references: [id], onUpdate: Cascade) // Defines the relation
+  subFacility SubFacility? @relation(fields: [subFacilityId], references: [id], onUpdate: Cascade)
 
   @@index([facilityId]) 
   @@index([subFacilityId])

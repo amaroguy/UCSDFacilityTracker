@@ -19,7 +19,7 @@ type WaitzFacilityData = {
     capacity: number,
     hourSummary: string,
     isOpen: boolean,
-    percentage: 0.48,
+    percentage: number,
     subLocs?: WaitzFacilityData[]
     abbreviation?: string,
 }
