@@ -19,6 +19,7 @@ model Facility {
 
 }
 
+//Cant go into the facilities table because some SubFacilities share the same ID as Facilities.
 model SubFacility {
   id Int @id
   name String

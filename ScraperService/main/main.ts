@@ -12,7 +12,7 @@ process.on('SIGINT', async function () {
     process.exit(0)
 })
 
-schedule.scheduleJob({tz: "America/Los_angeles", rule: "* */30 * * * *"}, async () => {    
+schedule.scheduleJob({tz: "America/Los_angeles", rule: "*/30 * * * *"}, async () => {    
     const timestamp = new Date().toISOString()
     
     let facilitySummaries = await fetchTrackedLocations()
