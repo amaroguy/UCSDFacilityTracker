@@ -12,7 +12,7 @@ This project is to keep track and serve historical data of Geisel Library and Wo
 
 2. **Configure Your Project:**
 
-    Edit the facilities you want to track in the `./ScraperService/waitzData.ts` file, by editing the 'LOCS_TO_TRACK' variable. It'll be an array with objects of the form 
+    Edit the facilities you want to track in the `./ScraperService/main/waitzData.ts` file, by editing the 'LOCS_TO_TRACK' variable. It'll be an array with objects of the form 
 
    ```
     {[LOCATION_ID]: {trackSubLocations: true/false}}
