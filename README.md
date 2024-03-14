@@ -30,3 +30,21 @@ This project is to keep track and serve historical data of Geisel Library and Wo
      ```
      docker run -d --name your-container-name your-image-name
      ```
+
+### Schema Overview
+
+Our database schema includes three primary models: `Facility`, `SubFacility`, and `FacilityRecord`. `Facilities` represent the main locations being tracked, while `SubFacilities` account for specific areas within or related to these main locations. This distinction is necessary due to some `SubFacilities` sharing an id with some `Facilities` in the API, requiring separate handling.
+
+### FacilityRecord Model
+
+The `FacilityRecord` model captures detailed occupancy and availability data at specific timestamps:
+
+- `id`: A unique identifier for each record.
+- `createdAt`: The timestamp when the data was recorded.
+- `numberOfPeople`: The count of people in the facility/subfacility.
+- `capacity`: The total capacity of the facility/subfacility.
+- `wasAvailable`: Indicates whether the facility/subfacility was available at the time of writing.
+- `fullness`: A calculated ratio of `numberOfPeople` to `capacity`, representing how full the facility/subfacility is.
+- `facilityId`: Links the record to a `Facility`.
+- `subFacilityId`: (Optional) Links the record to a `SubFacility`, if applicable.
+
