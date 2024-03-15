@@ -1,3 +1,7 @@
 ScraperService/.env
 ScraperService/node_modules
 ScraperService/main/out
+
+ApiService/.env
+ApiService/node_modules
+ApiService/main/out

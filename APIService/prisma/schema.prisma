@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Facility {
+  id             Int              @id
+  name           String
+  FacilityRecord FacilityRecord[]
+  SubFacility    SubFacility[]
+}
+
+model FacilityRecord {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime
+  numberOfPeople Int
+  capacity       Int
+  wasAvailable   Boolean
+  fullness       Float
+  facilityId     Int
+  subFacilityId  Int?
+  Facility       Facility     @relation(fields: [facilityId], references: [id])
+  SubFacility    SubFacility? @relation(fields: [subFacilityId], references: [id])
+
+  @@index([facilityId])
+  @@index([subFacilityId])
+}
+
+model SubFacility {
+  id               Int              @id
+  name             String
+  parentLocationId Int
+  FacilityRecord   FacilityRecord[]
+  Facility         Facility         @relation(fields: [parentLocationId], references: [id], onDelete: NoAction)
+
+  @@index([parentLocationId])
+}
