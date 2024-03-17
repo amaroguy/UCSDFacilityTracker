@@ -2,29 +2,45 @@ import prisma from "./prisma.js"
 import Fastify from "fastify"
 import { FacilityRequest } from "./types/types.js"
 import { pstDateToUtcRange } from "./util.js"
+import { facilityReader } from "./db.js"
 
 const server = Fastify()
+const db = facilityReader(prisma)
+const PORT = 3080
 
-server.get<FacilityRequest>('/', async (req, res) => {
+//get a specific sublocation
+server.get<FacilityRequest>('/facility/:facilityId', async (req, res) => {
     const {day, month, year} = req.query
+    const {facilityId} = req.params
 
-    const [startTime, endTime] = pstDateToUtcRange(month,day,year)
+    try {
+        res.status(200)
+        return await db.getFacilityRecords(Number(facilityId), day, month, year)
+    } catch (e) {
+        res.status(500)
+        return
+    }
 
-    const records = await prisma.facilityRecord.findMany({
-        where: {
-           createdAt: {
-                gte: startTime,
-                lte: endTime
-           } 
-        }
-    }) 
 
-    return records
 })
 
-await server.listen({port: 3080})
+//Get all available locations
+server.get('/facility', async (req, res) => {
+    try {
+        res.status(200)
+        return await db.getFacilities()
+    } catch (e) {
+        res.status(500)
+        return
+    }
+})
+
+
+await server.listen({port: PORT})
+console.log("Listening on port: ", PORT)
 
 process.on("SIGINT", async () => {
-    await prisma.$disconnect()
+    await db.cleanup()
+    console.log("Shutting down service...")
     process.exit(1)
 })
