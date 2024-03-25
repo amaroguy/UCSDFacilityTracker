@@ -28,7 +28,7 @@ server.get<FacilityRecordRequest>('/facilities/:facilityId', {
 })
 
 //Get all available locations
-server.get('/facility', async (req, res) => {
+server.get('/facilities', async (req, res) => {
     try {
 
         const dbResult = await db.getFacilities()
