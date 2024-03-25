@@ -1,35 +1,42 @@
 import prisma from "./prisma.js"
 import Fastify from "fastify"
-import { FacilityRequest } from "./types/types.js"
-import { pstDateToUtcRange } from "./util.js"
+import { FacilityRecordRequest } from "./types/types.js"
 import { facilityReader } from "./db.js"
+import { validateFacilityRecordRequestInput } from "./util.js"
 
 const server = Fastify()
 const db = facilityReader(prisma)
 const PORT = 3080
 
-//get a specific sublocation
-server.get<FacilityRequest>('/facility/:facilityId', async (req, res) => {
-    const {day, month, year} = req.query
-    const {facilityId} = req.params
-
+server.get<FacilityRecordRequest>('/facilities/:facilityId', {
+    preValidation: validateFacilityRecordRequestInput,
+}, async (req, res) => {
+    
     try {
+        const {day, month, year} = req.query
+        const {facilityId} = req.params
+        const dbResult = await db.getFacilityRecords(Number(facilityId), day, month, year)
+        
         res.status(200)
-        return await db.getFacilityRecords(Number(facilityId), day, month, year)
-    } catch (e) {
+        return dbResult        
+
+    } catch (error) {
+        const e = error as Error
         res.status(500)
-        return
+        res.send("Internal server error oopsies")
     }
-
-
 })
 
 //Get all available locations
 server.get('/facility', async (req, res) => {
     try {
+
+        const dbResult = await db.getFacilities()
+        
         res.status(200)
-        return await db.getFacilities()
+        return dbResult
     } catch (e) {
+
         res.status(500)
         return
     }

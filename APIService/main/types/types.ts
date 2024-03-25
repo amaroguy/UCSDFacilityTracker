@@ -1,4 +1,4 @@
-export interface FacilityRequest {
+export interface FacilityRecordRequest {
     Params: {
         facilityId: number
     }

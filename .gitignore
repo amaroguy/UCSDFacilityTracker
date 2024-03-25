@@ -1,7 +1,36 @@
+#SCRAPERSERVICE IGNORE
 ScraperService/.env
 ScraperService/node_modules
 ScraperService/main/out
 
+
+#APISERVICE IGNORE
 ApiService/.env
 ApiService/node_modules
 ApiService/main/out
+
+#FACILITIES_UI IGNORE
+# Logs
+FacilitiesUI/logs
+FacilitiesUI/*.log
+FacilitiesUI/npm-debug.log*
+FacilitiesUI/yarn-debug.log*
+FacilitiesUI/yarn-error.log*
+FacilitiesUI/pnpm-debug.log*
+FacilitiesUI/lerna-debug.log*
+
+FacilitiesUI/node_modules
+FacilitiesUI/dist
+FacilitiesUI/dist-ssr
+FacilitiesUI/*.local
+
+# Editor directories and files
+FacilitiesUI/.vscode/*
+! FacilitiesUI/.vscode/extensions.json
+FacilitiesUI/.idea
+FacilitiesUI/.DS_Store
+FacilitiesUI/*.suo
+FacilitiesUI/*.ntvs*
+FacilitiesUI/*.njsproj
+FacilitiesUI/*.sln
+FacilitiesUI/*.sw?
