@@ -3,10 +3,14 @@ import Fastify from "fastify"
 import { FacilityRecordRequest } from "./types/types.js"
 import { facilityReader } from "./db.js"
 import { validateFacilityRecordRequestInput } from "./util.js"
+import cors from "@fastify/cors"
 
 const server = Fastify()
 const db = facilityReader(prisma)
 const PORT = 3080
+server.register(cors, {
+    origin: "*"
+})
 
 server.get<FacilityRecordRequest>('/facilities/:facilityId', {
     preValidation: validateFacilityRecordRequestInput,
