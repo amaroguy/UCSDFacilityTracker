@@ -52,10 +52,9 @@ server.get('/facilities', async (req, res) => {
 server.get<SubfacilityRequest>('/facilities/:subfacilityId', async (req, res) => {
     try {
 
-        
+
         const {subfacilityId} = req.params
 
-        console.log(subfacilityId)
 
         const dbResult = await db.getSubfacilities(Number(subfacilityId))
 
