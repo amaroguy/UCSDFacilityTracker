@@ -16,6 +16,8 @@ console.log(BASE_URL)
 
 export const facilitiesService = (): FacilitiesService => {
     const fetchFacilities = async () => {
+        console.log("Fetching Facilities...")
+
         return fetch(`${BASE_URL}/facilities`).then(res => res.json())
     }
 

@@ -9,7 +9,7 @@ import { Facility, Subfacility } from './types/types'
 function App() {
   const [date, setDate] = useState(new Date())
   const [currentFacility, setCurrentFacility] = useState<Facility | undefined>()
-  const [currentSubfacility, setCurrentSubfacility] = useState<Subfacility | undefined>()
+  const [currentSubfacility, setCurrentSubfacility] = useState<Facility | undefined>()
   const [facilityToTrack, setFacilityToTrack] = useState<Facility | undefined>()
 
   const facilityService = facilitiesService()
@@ -35,30 +35,37 @@ function App() {
     enabled: !!facilityList
   })
 
-  console.log("SUBFACILITIES", isSubfacilityListPending, isSubfacilityListError, subfacilityList)
+  // console.log("SUBFACILITIES", isSubfacilityListPending, isSubfacilityListError, subfacilityList)
 
-  console.log("FACILITIES", isFacilityListPending, isFacilityListError, facilityList)
-
+  
+  
   const onCalendarChange = (nextDate: any) => {
     console.log(nextDate)
   }
-
-
-  if(isFacilityListPending || isSubfacilityListPending){
+  
+  
+  if(isFacilityListPending){
     return "Im loading!"
   }
-
-  if(!facilityList || !subfacilityList ){
+  
+  if(!facilityList){
     return "The list is null"
   }
-
+  
+  console.log(currentSubfacility, "CSF")
   return (
     <div>
+      <p> Current Facility: {currentFacility?.name ?? "None"}</p>
+      <p> Current Subfacility: {currentSubfacility?.name ?? "None"}</p>
+
       <FacilitySelector 
-        onChange={(e) => setCurrentFacility(e)} 
+        onFacilityChange={(e) => setCurrentFacility(e)} 
+        onSubfacilityChange={(e) => setCurrentSubfacility(e)}
+        areSubfacilitiesLoading={isSubfacilityListPending}
         facilities={facilityList} 
         subfacilities={subfacilityList}
         currentFacility={currentFacility}
+        currentSubfacility={currentSubfacility}
       />
       <Calendar onChange={onCalendarChange} value={date}/>
     </div>
