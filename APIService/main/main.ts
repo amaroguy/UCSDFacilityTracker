@@ -1,6 +1,6 @@
 import prisma from "./prisma.js"
 import Fastify from "fastify"
-import { FacilityRecordRequest } from "./types/types.js"
+import { FacilityRecordRequest, SubfacilityRequest } from "./types/types.js"
 import { facilityReader } from "./db.js"
 import { validateFacilityRecordRequestInput } from "./util.js"
 import cors from "@fastify/cors"
@@ -8,11 +8,13 @@ import cors from "@fastify/cors"
 const server = Fastify()
 const db = facilityReader(prisma)
 const PORT = 3080
+
 server.register(cors, {
     origin: "*"
 })
 
-server.get<FacilityRecordRequest>('/facilities/:facilityId', {
+//Get the records of a facility on a specific day
+server.get<FacilityRecordRequest>('/records/:facilityId', {
     preValidation: validateFacilityRecordRequestInput,
 }, async (req, res) => {
     
@@ -31,7 +33,7 @@ server.get<FacilityRecordRequest>('/facilities/:facilityId', {
     }
 })
 
-//Get all available locations
+//Get all available parent locations
 server.get('/facilities', async (req, res) => {
     try {
 
@@ -41,6 +43,26 @@ server.get('/facilities', async (req, res) => {
         return dbResult
     } catch (e) {
 
+        res.status(500)
+        return
+    }
+})
+
+//Get all available subfacilities of a facility
+server.get<SubfacilityRequest>('/facilities/:subfacilityId', async (req, res) => {
+    try {
+
+        
+        const {subfacilityId} = req.params
+
+        console.log(subfacilityId)
+
+        const dbResult = await db.getSubfacilities(Number(subfacilityId))
+
+        res.status(200)
+        return dbResult
+
+    } catch(e) {
         res.status(500)
         return
     }

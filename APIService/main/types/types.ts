@@ -8,3 +8,9 @@ export interface FacilityRecordRequest {
         year: number
     }
 }
+
+export interface SubfacilityRequest {
+    Params: {
+        subfacilityId: number
+    }
+}

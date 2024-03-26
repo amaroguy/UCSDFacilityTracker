@@ -1,17 +1,7 @@
 
 import { BASE_URL } from "../utils"
+import type { Facility, FacilityRecord } from "../types/types"
 
-//TODO - finish interface
-interface Facility {
-    facilityId: number
-    facilityName: string
-}
-
-
-//TODO - finish interface
-interface FacilityRecord {
-    name: string
-}
 
 interface FacilitiesService {
     fetchFacilities: () => Promise<Facility[]>
