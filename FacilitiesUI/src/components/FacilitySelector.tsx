@@ -3,7 +3,7 @@ import { Facility } from "../types/types"
 
 
 
-interface DropdownProps {
+interface FacilitySelectorProps {
     currentFacility: Facility | undefined,
     currentSubfacility: Facility | undefined,
     facilities:  Facility[]
@@ -13,7 +13,7 @@ interface DropdownProps {
     onSubfacilityChange: (newFacility: Facility | undefined) => any
 }
 
-export const FacilitySelector = ({currentFacility, facilities, subfacilities, onFacilityChange, onSubfacilityChange, currentSubfacility, areSubfacilitiesLoading}: DropdownProps) => {
+export const FacilitySelector = ({currentFacility, facilities, subfacilities, onFacilityChange, onSubfacilityChange, currentSubfacility, areSubfacilitiesLoading}: FacilitySelectorProps) => {
 
     const buildDropdownOption = ({id, name}: Facility) => (
         <option key={id} value={id}> {name} </option>
@@ -31,10 +31,13 @@ export const FacilitySelector = ({currentFacility, facilities, subfacilities, on
     }
     
     const subfacilityChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        if(!subfacilities) {return}
+        if(!subfacilities) {
+            return
+        }
         onSubfacilityChange(subfacilities.find(({id: fid}) => fid == Number(e.target.value)))
     }
 
+    //Default to the first facility in each list
     useEffect(() => {
         if(!currentFacility){
             onFacilityChange(facilities[0])
@@ -51,7 +54,7 @@ export const FacilitySelector = ({currentFacility, facilities, subfacilities, on
     return <>
         <h2> Facility </h2>
 
-        <select onChange={facilityChangeHandler} value={currentFacility?.id ?? undefined}>
+        <select onChange={facilityChangeHandler}>
             {facilities.map(buildDropdownOption)}
         </select>
 

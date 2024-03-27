@@ -5,12 +5,13 @@ import { facilitiesService } from './services/FacilitiesService'
 import { useQuery } from '@tanstack/react-query'
 import { FacilitySelector } from './components/FacilitySelector'
 import { Facility, Subfacility } from './types/types'
+import { DateCollector } from './components/DateCollector'
 
 function App() {
-  const [date, setDate] = useState(new Date())
   const [currentFacility, setCurrentFacility] = useState<Facility | undefined>()
   const [currentSubfacility, setCurrentSubfacility] = useState<Facility | undefined>()
   const [facilityToTrack, setFacilityToTrack] = useState<Facility | undefined>()
+  const [dates, setDates] = useState<Date[]>([new Date()])
 
   const facilityService = facilitiesService()
 
@@ -55,8 +56,8 @@ function App() {
   console.log(currentSubfacility, "CSF")
   return (
     <div>
-      <p> Current Facility: {currentFacility?.name ?? "None"}</p>
-      <p> Current Subfacility: {currentSubfacility?.name ?? "None"}</p>
+      <p> Current Facility: {JSON.stringify(currentFacility)}</p>
+      <p> Current Subfacility: {JSON.stringify(currentSubfacility)}</p>
 
       <FacilitySelector 
         onFacilityChange={(e) => setCurrentFacility(e)} 
@@ -67,7 +68,7 @@ function App() {
         currentFacility={currentFacility}
         currentSubfacility={currentSubfacility}
       />
-      <Calendar onChange={onCalendarChange} value={date}/>
+      <DateCollector dates={dates} setDates={setDates}/>
     </div>
   )
 }
