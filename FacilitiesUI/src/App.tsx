@@ -10,7 +10,6 @@ import { DateCollector } from './components/DateCollector'
 function App() {
   const [currentFacility, setCurrentFacility] = useState<Facility | undefined>()
   const [currentSubfacility, setCurrentSubfacility] = useState<Facility | undefined>()
-  const [facilityToTrack, setFacilityToTrack] = useState<Facility | undefined>()
   const [dates, setDates] = useState<Date[]>([new Date()])
 
   const facilityService = facilitiesService()

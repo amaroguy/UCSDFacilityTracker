@@ -47,7 +47,7 @@ export const FacilitySelector = ({currentFacility, facilities, subfacilities, on
 
     useEffect(() => {
         if(subfacilities){
-            onSubfacilityChange(subfacilities[0])
+            onSubfacilityChange(undefined)
         }
     }, [subfacilities])
 
@@ -61,7 +61,8 @@ export const FacilitySelector = ({currentFacility, facilities, subfacilities, on
         {
             areSubfacilitiesLoading ?
             <p> Loading subfacilities... </p> : 
-            <select onChange={subfacilityChangeHandler}>
+            <select onChange={subfacilityChangeHandler} value={currentSubfacility?.id}>
+                <option value=""> No Specific Floor </option>
                 {subfacilities && subfacilities.map(buildDropdownOption)}
             </select>
         }
