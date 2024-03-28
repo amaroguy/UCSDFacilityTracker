@@ -5,7 +5,7 @@ import type { Facility, FacilityRecord } from "../types/types"
 
 interface FacilitiesService {
     fetchFacilities: () => Promise<Facility[]>
-    fetchFacilityRecords: (facilityId: number, day: number, month: number, year: number) => Promise<FacilityRecord[]> 
+    fetchFacilityRecords: (facilityId: number, day: number, month: number, year: number, subfacilityId?: number) => Promise<FacilityRecord[]> 
     fetchSubfacilities: (parentFacilityId: Facility) => Promise<any[]>
 }
 
@@ -21,8 +21,17 @@ export const facilitiesService = (): FacilitiesService => {
         return fetch(`${BASE_URL}/facilities`).then(res => res.json())
     }
 
-    const fetchFacilityRecords = async (facilityId: number, day: number, month: number, year: number) => {
-        return fetch(`${BASE_URL}/records/${facilityId}?day=${day}&month=${month}&year=${year}`).then(res => res.json())
+    const fetchFacilityRecords = async (facilityId: number, day: number, month: number, year: number, subfacilityId?: number) => {
+
+        let fetchURL = `${BASE_URL}/records/${facilityId}?day=${day}&month=${month}&year=${year}`  
+        
+        if(subfacilityId){
+            fetchURL += `&subfacilityId=${subfacilityId}`
+        }
+
+        console.log("fetching for facilityid", facilityId, month, day, year, subfacilityId)
+
+        return fetch(fetchURL).then(res => res.json())
     }
 
     const fetchSubfacilities = async (parentFacility: Facility) => {

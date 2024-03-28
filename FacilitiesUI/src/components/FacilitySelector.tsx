@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useEffect } from "react"
+import { useEffect } from "react"
 import { Facility } from "../types/types"
 
 

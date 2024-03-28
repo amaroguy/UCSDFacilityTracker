@@ -7,7 +7,13 @@ export interface Subfacility extends Facility {
     parentFacilityId: number
 }
 
-//TODO - finish interface
 export interface FacilityRecord {
-    name: string
+    capacity: number,
+    createdAt: string,
+    facilityId: number,
+    id: number,
+    fullness: number,
+    numberOfPeople: number,
+    subFacilityId?: number,
+    wasAvailable: boolean
 }

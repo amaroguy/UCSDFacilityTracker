@@ -27,7 +27,7 @@ export const DateCollector = ({dates, setDates}:DateCollectorProps) => {
     return <>
         <p> Dates </p>
         <button onClick={addDate}> Add Date </button>
-        { dates.map((d, i) => <DateSelector onDateChange={(d: Date) => editDate(d, i)} date={d} onRemoveDate={() => removeDate(i)}/>) }
+        { dates.map((d, i) => <DateSelector onDateChange={(d: Date) => editDate(d, i)} date={d} onRemoveDate={() => removeDate(i)} key={d.toString()}/>) }
     </>
 
 }

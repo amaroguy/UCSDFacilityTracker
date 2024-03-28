@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import './App.css'
-import Calendar from 'react-calendar'
 import { facilitiesService } from './services/FacilitiesService'
-import { useQuery } from '@tanstack/react-query'
+import { useQueries, useQuery } from '@tanstack/react-query'
 import { FacilitySelector } from './components/FacilitySelector'
-import { Facility, Subfacility } from './types/types'
+import { Facility } from './types/types'
 import { DateCollector } from './components/DateCollector'
+import { FacilityChart } from './components/Chart'
 
 function App() {
   const [currentFacility, setCurrentFacility] = useState<Facility | undefined>()
@@ -35,6 +35,24 @@ function App() {
     enabled: !!facilityList
   })
 
+  const recordsQueries = useQueries({
+    queries: dates.map((d) => {
+      const month = d.getMonth() + 1
+      const day =  d.getDate()
+      const year = d.getFullYear()
+
+      return {
+        queryKey: ['records', currentFacility, currentSubfacility, month, day, year],
+        queryFn: () => facilityService.fetchFacilityRecords(currentFacility?.id as number, day, month, year, currentSubfacility?.id),
+        enabled: !!currentFacility && dates.length > 0
+      }
+    }),
+    
+  })
+
+  console.log(recordsQueries.forEach((rq) => console.log(rq.data)))
+  console.log(recordsQueries.length)
+
   // console.log("SUBFACILITIES", isSubfacilityListPending, isSubfacilityListError, subfacilityList)
 
   
@@ -51,6 +69,8 @@ function App() {
   if(!facilityList){
     return "The list is null"
   }
+
+  const isChartDataLoading = recordsQueries.some((rq) => rq.isLoading)
   
   console.log(currentSubfacility, "CSF")
   return (
@@ -68,6 +88,7 @@ function App() {
         currentSubfacility={currentSubfacility}
       />
       <DateCollector dates={dates} setDates={setDates}/>
+      <FacilityChart data={recordsQueries} isChartDataLoading={isChartDataLoading} />
     </div>
   )
 }
