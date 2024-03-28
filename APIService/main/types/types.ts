@@ -6,11 +6,12 @@ export interface FacilityRecordRequest {
         day: number
         month: number
         year: number
+        subfacilityId?: number
     }
 }
 
 export interface SubfacilityRequest {
     Params: {
-        subfacilityId: number
+        facilityId: number
     }
 }

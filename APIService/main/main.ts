@@ -19,9 +19,12 @@ server.get<FacilityRecordRequest>('/records/:facilityId', {
 }, async (req, res) => {
     
     try {
-        const {day, month, year} = req.query
+        let {day, month, year, subfacilityId} = req.query
+
+        subfacilityId = subfacilityId ? Number(subfacilityId) : undefined
+
         const {facilityId} = req.params
-        const dbResult = await db.getFacilityRecords(Number(facilityId), day, month, year)
+        const dbResult = await db.getFacilityRecords(Number(facilityId), day, month, year, subfacilityId)
         
         res.status(200)
         return dbResult        
@@ -49,14 +52,14 @@ server.get('/facilities', async (req, res) => {
 })
 
 //Get all available subfacilities of a facility
-server.get<SubfacilityRequest>('/facilities/:subfacilityId', async (req, res) => {
+server.get<SubfacilityRequest>('/facilities/:facilityId', async (req, res) => {
     try {
 
 
-        const {subfacilityId} = req.params
+        const {facilityId} = req.params
 
 
-        const dbResult = await db.getSubfacilities(Number(subfacilityId))
+        const dbResult = await db.getSubfacilities(Number(facilityId))
 
         res.status(200)
         return dbResult

@@ -3,7 +3,7 @@ import { Facility } from "@prisma/client";
 import { pstDateToUtcRange } from "./util.js";
 
 interface FacilityAPI {
-    getFacilityRecords: (facilityId: number, day: number, month: number, year: number) => Promise<FacilityRecord[]>
+    getFacilityRecords: (facilityId: number, day: number, month: number, year: number, subfacilityId?: number) => Promise<FacilityRecord[]>
     getFacilities: () => Promise<Facility[]>
     getSubfacilities: (parentFacilityId: number) => Promise<SubFacility[]>
     cleanup: () => Promise<void>
@@ -11,7 +11,7 @@ interface FacilityAPI {
 
 export const facilityReader = (prisma: PrismaClient): FacilityAPI => {
 
-    const getFacilityRecords= async (facilityId: number, day: number, month: number, year: number)  => {
+    const getFacilityRecords= async (facilityId: number, day: number, month: number, year: number, subFacilityId: number | undefined)  => {
        
         const [startTime, endTime] = pstDateToUtcRange(month,day,year)
 
@@ -19,6 +19,9 @@ export const facilityReader = (prisma: PrismaClient): FacilityAPI => {
             where: {
                 facilityId: {
                     equals: facilityId
+                },
+                subFacilityId: {
+                    equals: subFacilityId ?? null
                 },
                 createdAt: {
                     gte: startTime,
