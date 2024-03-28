@@ -1,6 +1,7 @@
 import { UseQueryResult } from "@tanstack/react-query"
 import { FacilityRecord } from "../types/types"
 import { facilityRecordsToChartJSData } from "../utils"
+import { Bar, Line } from "react-chartjs-2"
 
 interface ChartProps {
     data: UseQueryResult<FacilityRecord[], Error>[]
@@ -18,8 +19,10 @@ export const FacilityChart = ({data, isChartDataLoading}:ChartProps) => {
 
     console.log(chartData, "THIS IS THE CHART DATA")
 
-    const datasets = chartData.map((records) => facilityRecordsToChartJSData(records as FacilityRecord[]))
+    const datasets = chartData.map((records) => ({data: facilityRecordsToChartJSData(records as FacilityRecord[])}))
 
     console.log("DONEEEEE", datasets)
+
+    return <Line data={{datasets}}/>
 
 }
