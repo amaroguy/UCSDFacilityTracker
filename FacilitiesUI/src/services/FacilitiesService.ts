@@ -18,12 +18,12 @@ export const facilitiesService = (): FacilitiesService => {
     const fetchFacilities = async () => {
         console.log("Fetching Facilities...")
 
-        return fetch(`${BASE_URL}/facilities`).then(res => res.json())
+        return fetch(`${BASE_URL}/api/facilities`).then(res => res.json())
     }
 
     const fetchFacilityRecords = async (facilityId: number, day: number, month: number, year: number, subfacilityId?: number) => {
 
-        let fetchURL = `${BASE_URL}/records/${facilityId}?day=${day}&month=${month}&year=${year}`  
+        let fetchURL = `${BASE_URL}/api/records/${facilityId}?day=${day}&month=${month}&year=${year}`  
         
         if(subfacilityId){
             fetchURL += `&subfacilityId=${subfacilityId}`
@@ -36,7 +36,7 @@ export const facilitiesService = (): FacilitiesService => {
 
     const fetchSubfacilities = async (parentFacility: Facility) => {
         console.log("Fetching subfacilities of", parentFacility)
-        return fetch(`${BASE_URL}/facilities/${parentFacility.id}`).then(res => res.json())
+        return fetch(`${BASE_URL}/api/facilities/${parentFacility.id}`).then(res => res.json())
     }
 
     return {
