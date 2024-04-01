@@ -1,0 +1,24 @@
+version: "3"
+services:
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./ServiceRouter
+    ports:
+      - "3050:80"
+  scraper:
+    build:
+      dockerfile: Dockerfile
+      context: ./ScraperService
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./APIService
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./FacilitiesUI
