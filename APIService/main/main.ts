@@ -7,7 +7,8 @@ import cors from "@fastify/cors"
 
 const server = Fastify()
 const db = facilityReader(prisma)
-const PORT = 3080
+const PORT = 3090
+const HOST = "0.0.0.0"
 
 server.register(cors, {
     origin: "*"
@@ -71,8 +72,8 @@ server.get<SubfacilityRequest>('/facilities/:facilityId', async (req, res) => {
 })
 
 
-await server.listen({port: PORT})
-console.log("Listening on port: ", PORT)
+await server.listen({port: PORT, host: HOST})
+console.log("Listening at", HOST, ":", PORT)
 
 process.on("SIGINT", async () => {
     await db.cleanup()

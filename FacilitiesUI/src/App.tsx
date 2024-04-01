@@ -17,7 +17,6 @@ function App() {
   //TODO, CACHE FOR LIKE A WEEK?
   const {
     isPending: isFacilityListPending, 
-    error: isFacilityListError, 
     data: facilityList
   } = useQuery({
     queryKey: ["FacilitiesList"],
@@ -27,7 +26,6 @@ function App() {
   //TODO, CACHE FOR LIKE A WEEK?
   const {
     isPending: isSubfacilityListPending,
-    error: isSubfacilityListError,
     data: subfacilityList
   } = useQuery({
     queryKey: ["Subfacilities", currentFacility],
@@ -56,10 +54,7 @@ function App() {
   // console.log("SUBFACILITIES", isSubfacilityListPending, isSubfacilityListError, subfacilityList)
 
   
-  
-  const onCalendarChange = (nextDate: any) => {
-    console.log(nextDate)
-  }
+
   
   
   if(isFacilityListPending){

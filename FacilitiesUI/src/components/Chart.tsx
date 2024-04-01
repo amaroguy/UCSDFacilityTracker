@@ -1,7 +1,7 @@
 import { UseQueryResult } from "@tanstack/react-query"
 import { FacilityRecord } from "../types/types"
 import { facilityRecordsToChartJSData } from "../utils"
-import { Bar, Line } from "react-chartjs-2"
+import { Line } from "react-chartjs-2"
 
 interface ChartProps {
     data: UseQueryResult<FacilityRecord[], Error>[]
