@@ -1,5 +1,7 @@
 This project is to keep track and serve historical data of Geisel Library and WongAvery library busyness. It can also track other locations with the right setup listed below. An API to service the tracked data is planned.
 
+
+
 ### Installation
 1. **Create a Supabase Project:** 
     
@@ -22,13 +24,9 @@ This project is to keep track and serve historical data of Geisel Library and Wo
    
 
 3. **Build and Run the Docker Container:**
-   - Build your Docker container with the following command:
+   - Build the app with:
      ```
-     docker build -t your-image-name .
-     ```
-   - Run your Docker container using:
-     ```
-     docker run -d --name your-container-name your-image-name
+         docker-compose up
      ```
 
 ### Schema Overview
